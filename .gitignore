@@ -1,0 +1,16 @@
+.idea
+Downloads
+venv
+debugger.py
+Logs
+*.xml
+*.pyc
+debug.log
+Temp
+test2.py
+chromedriver.exe
+*.log
+.idea/backend.iml
+.idea/backend.iml
+.idea/misc.xml
+.idea/backend.iml
