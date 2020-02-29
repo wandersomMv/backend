@@ -1,4 +1,3 @@
-pywin32
 DateTime
 Kivy-Garden
 MouseInfo
@@ -39,8 +38,6 @@ pytesseract
 pytest
 python-dateutil
 pytz
-pywin32
-pywinauto
 requests
 selenium
 setuptools
