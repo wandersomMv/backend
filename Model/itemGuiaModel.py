@@ -5,9 +5,9 @@ class ItemGuiaModel:
                         produto_id = None,
                         valor_total = None,
                         numero = None):
-        self.version = None,
-        self.quantidade = None,
-        self.guia_id = None,
-        self.produto_id = None,
-        self.valor_total = None,
-        self.numero = None
+        self.version = version
+        self.quantidade = quantidade
+        self.guia_id = quantidade
+        self.produto_id = produto_id
+        self.valor_total = valor_total
+        self.numero = numero

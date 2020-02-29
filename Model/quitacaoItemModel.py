@@ -1,4 +1,4 @@
-class QuitacaoGuiaModel:
+class QuitacaoItemModel:
     def __init__(self,  version	= None,
                         valor	= None,
                         motivo_glosa_descricao = None,
