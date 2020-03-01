@@ -29,28 +29,38 @@ class GlosaMax(RootModel):
         self.browser.get('https://{}.zeroglosa.com.br/{}/arquivo/index'.format(convenio,convenio))
 
         wait = WebDriverWait(self.browser, 10)  # será usado para esperar a tabela de download aparecer
-        wait.until(EC.presence_of_all_elements_located(
-            (By.XPATH, '//*[@id="list-arquivo"]/div/a')))  # esperar aparecer a tabela onde contém os download
+        wait.until(EC.presence_of_all_elements_located((By.XPATH, '//*[@id="list-arquivo"]/div/a')))  # esperar aparecer a tabela onde contém os download
 
-        tabela_donwload = self.browser.find_elements_by_xpath(
-            '//*[@id="list-arquivo"]/div/a')  # pegar os elemetos da tabela
+        tabela_donwload = self.browser.find_elements_by_xpath('//*[@id="list-arquivo"]/div/a')  # pegar os elemetos da tabela
 
+        lista_data = []
         for elementos in tabela_donwload:  # pegar as datas para fazer os donwloads
 
             data_elemento = str(elementos.text)  # pegar a data do elemento atual
             aux_data = datetime.strptime(data_elemento, "%Y-%m-%d")  # passar para o formato datatime
+            lista_data.append(aux_data) # pegar a data
 
-            if data_ultima_coleta != None and data_ultima_coleta >= aux_data:
+
+        lista_data.sort()
+        lista_data.reverse()
+
+
+        for elementos in lista_data:
+
+            if data_ultima_coleta != None and data_ultima_coleta > elementos:
                 break
-
+            data_elemento =datetime.strftime(elementos, "%Y-%m-%d")
             link_donwload = link_base.format(convenio,convenio,convenio,data_elemento,extensao, data_elemento)  # montar a url para fazer o download
 
             n_files = len(os.listdir(self.path_download_prov))
-            self.browser.execute_script(
-                '''window.open("{}","_blank");'''.format(link_donwload))  # Abrir nova aba e faz o donwload
+            self.browser.execute_script('''window.open("{}","_blank");'''.format(link_donwload))  # Abrir nova aba e faz o donwload
 
             err_down = self.wait_download(n_files)  # esperar o download terminar, retorna verdadeiro se deu erro
 
+        if len(lista_data) >0 and lista_data[0] > data_ultima_coleta: # ultima movimentação
+            return lista_data[0]
+        else:
+            return data_ultima_coleta
 
 
     def donwload_arquivos(self,data_ultima_coleta = None, convenio=None):
@@ -60,7 +70,7 @@ class GlosaMax(RootModel):
 
         glosas = ['glosamin','glosamax','pagatudo'] # lista de convenios
         if convenio!= None and convenio in glosas:
-            self.dowload_convenio_glosas(data_ultima_coleta,convenio)
+            return self.dowload_convenio_glosas(data_ultima_coleta,convenio)
 
 
 
