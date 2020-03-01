@@ -26,6 +26,7 @@ class Extracao_dados:
         self.dicionario_chave_num_prestes = {}
         self.caminho_pasta_dos_arquivos = ''
         self.dicionario_dados_site_orm = {}
+        self.caminhos_arquivos = ''
     
     # COLETA O NOME DOS ARQUIVOS
     def coleta_nome_arquivos(self):
@@ -81,7 +82,32 @@ class Extracao_dados:
 
     # RETORNA UMA TUPLA COM OS DADOS DO ARQUIVO HTML
     def retorna_tupla_dados_dos_arquivos_csv(self,name):
-        pass
+        caminho_ate_arquivo = self.caminho_pasta_dos_arquivos + "/" + name
+        print(caminho_ate_arquivo)
+        train_dataset = pd.read_csv(caminho_ate_arquivo,sep='\t')
+        convenio = train_dataset['convenio']
+        data_pagamento = train_dataset['data_pagamento']
+        numero_protocolo = train_dataset['numero_protocolo']
+        matricula = train_dataset['matricula']
+        nome = train_dataset['nome']
+        numero_guia = train_dataset['numero_guia']
+        ng_prest = train_dataset['numero_guia_prestador']
+        senha_guia = train_dataset['senha']
+        codigo_produto = train_dataset['codigo']
+        descricao_produto = train_dataset['descricao']
+        valor_apresentado = train_dataset['valor_apresentado']
+        valor_pago = train_dataset['valor_pago']
+        valor_glosa = train_dataset['valor_glosa']
+        descricao_motivo = train_dataset['descricao_motivo']
+        codigo_motivo = train_dataset['codigo_motivo']
+        # -----------------------------------
+        # TUPLA COM AS LISTAS DOS DADOS RETIRADOS DA train_dataset EM HTML
+        tupla_listas_dados = (convenio, data_pagamento, numero_protocolo, matricula,
+                              nome, numero_guia, ng_prest, senha_guia, codigo_produto,
+                              descricao_produto, valor_apresentado, valor_apresentado,
+                              valor_pago, valor_glosa, descricao_motivo, codigo_motivo)
+        print("tamanho da tupla de listas: ", len(tupla_listas_dados))
+        return tupla_listas_dados
 
     # MONTA O DICIONARIO, COM OS OBJETOS PREENCHIDOS, E CADA OBJETO EQUIVALE A UMA LINNHA DA PLANILHA EM XML
     def monta_diacionario_de_objetos_arquivos_xml(self,nome_arquivo):
@@ -105,7 +131,7 @@ class Extracao_dados:
                 descricao_motivo = str(tupla_dado['descricao_motivo']),
                 codigo_motivo = str(tupla_dado['codigo_motivo']),
             )
-            tupla_chave_auxiliar = (objeto.ng_prest, objeto.numero_guia)
+            tupla_chave_auxiliar = (objeto.ng_prest, objeto.matricula)
             # PEGA A LISTA DE CHAVES
             keys = list(self.dicionario_chave_num_prestes.keys())
             if len(keys) > 0 and tupla_chave_auxiliar in keys:
@@ -139,7 +165,7 @@ class Extracao_dados:
                 descricao_motivo = str(tupla_dados[13][i]),
                 codigo_motivo = str(tupla_dados[14][i])
             )
-            tupla_chave_auxiliar = (objeto.ng_prest,objeto.numero_guia)
+            tupla_chave_auxiliar = (objeto.ng_prest,objeto.matricula)
             # PEGA A LISTA DE CHAVES
             keys = list(self.dicionario_chave_num_prestes.keys())
             if len(keys) > 0 and tupla_chave_auxiliar in keys:
@@ -149,6 +175,38 @@ class Extracao_dados:
                 lista_aux.append(objeto)
                 self.dicionario_chave_num_prestes[tupla_chave_auxiliar] = lista_aux
 
+
+    # PEGA A TUPLA DE DADOS DOS ARQUIVOS CSV, E MONTA O DICIONARIO
+    def monta_diacionario_de_objetos_arquivos_csv(self,nome_arquivo):
+        tupla_dados = self.retorna_tupla_dados_dos_arquivos_csv(nome_arquivo)
+        tam_lista_ng_prestes = len(tupla_dados[6])
+        for i in range(tam_lista_ng_prestes):
+            objeto = dados(
+                convenio=str(tupla_dados[0][i]),
+                data_pagamento=str(tupla_dados[1][i]),
+                numero_protocolo=str(tupla_dados[2][i]),
+                matricula=str(tupla_dados[3][i]),
+                nome=str(tupla_dados[4][i]),
+                numero_guia=str(tupla_dados[5][i]),
+                ng_prest=str(tupla_dados[6][i]),
+                senha_guia=str(tupla_dados[7][i]),
+                codigo_produto=str(tupla_dados[8][i]),
+                descricao_produto=str(tupla_dados[9][i]),
+                valor_apresentado=str(tupla_dados[10][i]),
+                valor_pago=str(tupla_dados[11][i]),
+                valor_glosa=str(tupla_dados[12][i]),
+                descricao_motivo=str(tupla_dados[13][i]),
+                codigo_motivo=str(tupla_dados[14][i])
+            )
+            tupla_chave_auxiliar = (objeto.ng_prest, objeto.numero_guia)
+            # PEGA A LISTA DE CHAVES
+            keys = list(self.dicionario_chave_num_prestes.keys())
+            if len(keys) > 0 and tupla_chave_auxiliar in keys:
+                self.dicionario_chave_num_prestes[tupla_chave_auxiliar].append(objeto)
+            else:
+                lista_aux = []
+                lista_aux.append(objeto)
+                self.dicionario_chave_num_prestes[tupla_chave_auxiliar] = lista_aux
 
     # COLETA OS DADOS DO ARQUIVO XML BAIXADO NO SITE ORM
     def monta_dicionario_dados_orm(self,nome_arquivo):
@@ -191,15 +249,9 @@ class Extracao_dados:
             else:
                 lista_aux = []
                 contador += 1
-                print("objeto: ",objeto.__dict__,"\n")
                 lista_aux.append(objeto)
-
                 # print("chave dentro do else: ",tupla_chave_auxiliar)
                 self.dicionario_dados_site_orm[tupla_chave_auxiliar] = lista_aux
-                y[tupla_chave_auxiliar] = lista_aux
-        print(contador)
-        print("dicionario oficial: ",len(self.dicionario_dados_site_orm.keys()))
-        print("dicionario auxiliar: ",len(y.keys()))
 
 
     # IMPRIMIR O DICIONARIO PARA TESTE
@@ -234,6 +286,12 @@ class Extracao_dados:
         for nome_arquivo in self.nome_arquivos:
             self.monta_dicionario_dados_orm(nome_arquivo)
 
+    # PEGA OS DADOS DOS ARQUIVOS CSV QUE FORAM BAIXADOS DO SITE DO CONVENIO
+    def varre_todos_arquivos_csv(self):
+        for nome_arquivo in self.nome_arquivos:
+            self.monta_diacionario_de_objetos_arquivos_csv(nome_arquivo)
+            break
+
     # IMPRIMIR O DICIONARIO PARA TESTE
     def imprimir_dicionario_orm(self):
         lista_chaves = self.dicionario_dados_site_orm.keys()
@@ -254,6 +312,18 @@ class Extracao_dados:
     def executar_extracao_dados_html(self):
         self.nome_convenio = 'glosamin'
         self.coleta_nome_arquivos()
+
+    # APAGA A PASTA DOWNLAOD DPS DE INSERIR OS DADOS NO BANCO DE DADOS
+    def apaga_pasta_downlaod(self):
+        os.chdir(self.caminhos_arquivos)
+        os.system('rm -rf Downloads')
+
+    def executar_extracao_dados(self):
+        self.coleta_nome_arquivos()
+        self.varre_todos_arquivos_csv()
+        self.imprimir_dicionario()
+        # self.apaga_pasta_downlaod()
+        # self.varre_todos_arquivos_orm()
         # self.imprimir_dicionario_orm()
         self.varre_todos_arquivos_html()
         # self.imprimir_dicionario()

@@ -1,5 +1,9 @@
 .idea
+<<<<<<< HEAD
+Downloads
+=======
 Donwloads
+>>>>>>> 1ccaac96e69b2de4dfb6fafd9694ba1104689d1d
 venv
 debugger.py
 Logs
