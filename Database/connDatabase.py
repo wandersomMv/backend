@@ -1,5 +1,5 @@
 from sqlalchemy import *
-from Model.dados_planilhs import dados
+from Model.dados_planilhas import dados
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.exc import ArgumentError, InterfaceError, OperationalError
