@@ -1,4 +1,4 @@
-class ProdutoModel:
+class ProdutoZeroGlosaModel:
     def __init__(self,  version = None,
                         codigo = None,
                         nome = None,

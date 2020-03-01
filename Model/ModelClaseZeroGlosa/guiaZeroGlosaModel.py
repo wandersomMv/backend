@@ -1,4 +1,4 @@
-class GuiaModel:
+class GuiaZeroGlosaModel:
     def __init__(self,  version = None,
                         numero = None,
                         prestador_id = None,
