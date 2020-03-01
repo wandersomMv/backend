@@ -16,3 +16,8 @@ test2.py
 .idea/backend.iml
 .idea/misc.xml
 .idea/backend.iml
+*.iml
+*.iml
+*.xml
+.idea/backend.iml
+.idea/misc.xml

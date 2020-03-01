@@ -1,9 +1,11 @@
 from sqlalchemy import *
-from Model.dados_planilhs import dados
+from Model.dados_planilhas import dados
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.exc import ArgumentError, InterfaceError, OperationalError
-Base = declarative_base()
+
+Base =declarative_base()
+
 
 
 class BeneficiaroTable(Base):
@@ -17,7 +19,7 @@ class ConvenioTable(Base):
     conv_id = Column(BIGINT, primary_key=True, autoincrement=True)
     conv_ans = Column(VARCHAR(255))
     conv_nome = Column( VARCHAR (255))
-    con_data_update = Column( DATE) 
+    conv_data_update = Column( DATE)
 
 class GuiaTable(Base):
     __tablename__ = "guia"
