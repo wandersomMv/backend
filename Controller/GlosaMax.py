@@ -44,9 +44,11 @@ class GlosaMax(RootModel):
                 break
 
             link_donwload = link_base.format(convenio,convenio,convenio,data_elemento,extensao, data_elemento)  # montar a url para fazer o download
+
+            n_files = len(os.listdir(self.path_download_prov))
             self.browser.execute_script(
                 '''window.open("{}","_blank");'''.format(link_donwload))  # Abrir nova aba e faz o donwload
-            n_files = len(os.listdir(self.path_download_prov))
+
             err_down = self.wait_download(n_files)  # esperar o download terminar, retorna verdadeiro se deu erro
 
 

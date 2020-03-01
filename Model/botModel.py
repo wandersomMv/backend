@@ -52,7 +52,7 @@ class RootModel:
             local = str( os.path.abspath('../WebDriver/chromedriver.exe'))
             self.browser = webdriver.Chrome(local, options=self.chrome_options)
             self.browser.maximize_window()
-            self.browser.get(self.site)
+            #self.browser.get(self.site)
 
             #if self.visivel:
                 #self.browser.set_window_position(-10000, 0)
