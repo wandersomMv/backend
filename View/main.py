@@ -11,8 +11,11 @@ class execute:
      def pegar_dicionarios_dados(self):
 
          objeto = Extracao_dados()
+         # objeto.executar_extracao_dados_csv()
+         # objeto.imprimir_dicionario()
          objeto.executar_extracao_dados_xml()  # dados
          objeto.executar_extracao_dados_html() # dados glosamin
+
 
          objeto.imprimir_dicionario()
          return objeto.dicionario_chave_num_prestes # dicionario com as chaves e dados

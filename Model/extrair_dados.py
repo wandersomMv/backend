@@ -42,8 +42,8 @@ class Extracao_dados:
         doc = ''
         # CRIA UM OBJETO DO TIPO DICIONARIO COM OS DADOS
         print("caminho para os arquivvos xml: ",self.caminho_pasta_dos_arquivos + "\\" + name)
-        with open(self.caminho_pasta_dos_arquivos + "\\" + name) as fd:
-            doc = xmltodict.parse(fd.read())
+        with open(self.caminho_pasta_dos_arquivos + "\\" + name, encoding='utf-8') as fd:
+            doc = xmltodict.parse(fd.read(),encoding='utf-8')
         # EXTRAI OS DADOS, E RETORNA A TUPLA COM ELES
         return tuple(doc['data']['row'])
 
@@ -290,7 +290,7 @@ class Extracao_dados:
     def varre_todos_arquivos_csv(self):
         for nome_arquivo in self.nome_arquivos:
             self.monta_diacionario_de_objetos_arquivos_csv(nome_arquivo)
-            break
+
 
     # IMPRIMIR O DICIONARIO PARA TESTE
     def imprimir_dicionario_orm(self):
@@ -312,6 +312,7 @@ class Extracao_dados:
     def executar_extracao_dados_html(self):
         self.nome_convenio = 'glosamin'
         self.coleta_nome_arquivos()
+        self.varre_todos_arquivos_html()
 
     # APAGA A PASTA DOWNLAOD DPS DE INSERIR OS DADOS NO BANCO DE DADOS
     def apaga_pasta_downlaod(self):
@@ -335,5 +336,9 @@ class Extracao_dados:
         self.coleta_nome_arquivos()
         # self.imprimir_dicionario_orm()
         self.varre_todos_arquivos_xml()
+    def executar_extracao_dados_csv(self):
+        self.nome_convenio = 'pagatudo'
+        self.coleta_nome_arquivos()
+        self.varre_todos_arquivos_csv()
 
 
