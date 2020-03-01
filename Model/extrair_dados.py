@@ -153,41 +153,52 @@ class Extracao_dados:
     def monta_dicionario_dados_orm(self,nome_arquivo):
         tree = ET.parse(self.caminho_pasta_dos_arquivos + "/" + nome_arquivo)
         root = tree.getroot()
-        # MONTA A LISTA DE DICIONARIO COM OS ITENS DO XML COLETADO NO SITE DO ORM
-        objeto = ''
-        # MONTA A PARTE DOS DADOS DA GUIA
-        for numeroGuia, nomeOperadora, nome_prestador, cnpj, nome_Beneficiario, matricula, dataAtendimento, valorTotalGuia in zip(root.iter('numeroGuia'),root.iter('nomeOperadora'),root.iter('nomePrestador'),root.iter('cnpj'),root.iter('nomeBeneficiario'),root.iter('matricula'),root.iter('dataAtendimento'),root.iter('valorTotalGuia')):
-            objeto = guia(
-                numeroGuia = numeroGuia.text,
-                nomeOperadora = nomeOperadora.text,
-                nome_prestador = nome_prestador.text,
-                cnpj = cnpj.text,
-                nome_Beneficiario = nome_Beneficiario.text,
-                matricula = matricula.text,
-                dataAtendimento = dataAtendimento.text,
-                valorTotalGuia = valorTotalGuia.text
-            )
-        for numeroItem,codigo,nome_item,valorUnitario,quantidade,valorTotal in zip(root.iter('numeroItem'),root.iter('codigo'),root.iter('nome'),root.iter('valorUnitario'),root.iter('quantidade'),root.iter('valorTotal')):
-            objeto_auxiliar = dados_item(
-                numeroItem = numeroItem.text,
-                codigo = codigo.text,
-                nome_item = nome_item.text,
-                valorUnitario = valorUnitario.text,
-                quantidade = quantidade.text,
-                valorTotal = valorTotal.text
-            )
-            objeto.lista_itens_da_guia.append(objeto_auxiliar)
-        tupla_chave_auxiliar = (objeto.numeroGuia, objeto.matricula)
-        # PEGA A LISTA DE CHAVES
-        keys = list(self.dicionario_chave_num_prestes.keys())
-        if len(keys) > 0 and tupla_chave_auxiliar in keys:
-            self.dicionario_dados_site_orm[tupla_chave_auxiliar].append(objeto)
-        else:
-            lista_aux = []
-            lista_aux.append(objeto)
-            self.dicionario_dados_site_orm[tupla_chave_auxiliar] = lista_aux
+        iterator = root.iter('guia')
+        y = {}
+        contador = 0
+        for it in iterator:
+            # MONTA A LISTA DE DICIONARIO COM OS ITENS DO XML COLETADO NO SITE DO ORM
+            objeto = ''
+            # MONTA A PARTE DOS DADOS DA GUIA
+            for numeroGuia, nomeOperadora, nome_prestador, cnpj, nome_Beneficiario, matricula, dataAtendimento, valorTotalGuia in zip(it.iter('numeroGuia'),it.iter('nomeOperadora'),it.iter('nomePrestador'),it.iter('cnpj'),it.iter('nomeBeneficiario'),it.iter('matricula'),it.iter('dataAtendimento'),it.iter('valorTotalGuia')):
+                objeto = guia(
+                    numeroGuia = numeroGuia.text,
+                    nomeOperadora = nomeOperadora.text,
+                    nome_prestador = nome_prestador.text,
+                    cnpj = cnpj.text,
+                    nome_Beneficiario = nome_Beneficiario.text,
+                    matricula = matricula.text,
+                    dataAtendimento = dataAtendimento.text,
+                    valorTotalGuia = valorTotalGuia.text
+                )
+            for numeroItem,codigo,nome_item,valorUnitario,quantidade,valorTotal in zip(it.iter('numeroItem'),it.iter('codigo'),it.iter('nome'),it.iter('valorUnitario'),it.iter('quantidade'),it.iter('valorTotal')):
+                objeto_auxiliar = dados_item(
+                    numeroItem = numeroItem.text,
+                    codigo = codigo.text,
+                    nome_item = nome_item.text,
+                    valorUnitario = valorUnitario.text,
+                    quantidade = quantidade.text,
+                    valorTotal = valorTotal.text
+                )
+                objeto.lista_itens_da_guia.append(objeto_auxiliar)
+            tupla_chave_auxiliar = (objeto.numeroGuia, objeto.matricula)
+            # PEGA A LISTA DE CHAVES
+            keys = list(self.dicionario_chave_num_prestes.keys())
+            if len(keys) > 0 and tupla_chave_auxiliar in keys:
+                print("repetido")
+                self.dicionario_dados_site_orm[tupla_chave_auxiliar].append(objeto)
+            else:
+                lista_aux = []
+                contador += 1
+                print("objeto: ",objeto.__dict__,"\n")
+                lista_aux.append(objeto)
 
-
+                # print("chave dentro do else: ",tupla_chave_auxiliar)
+                self.dicionario_dados_site_orm[tupla_chave_auxiliar] = lista_aux
+                y[tupla_chave_auxiliar] = lista_aux
+        print(contador)
+        print("dicionario oficial: ",len(self.dicionario_dados_site_orm.keys()))
+        print("dicionario auxiliar: ",len(y.keys()))
 
 
     # IMPRIMIR O DICIONARIO PARA TESTE
@@ -225,19 +236,24 @@ class Extracao_dados:
     # IMPRIMIR O DICIONARIO PARA TESTE
     def imprimir_dicionario_orm(self):
         lista_chaves = self.dicionario_dados_site_orm.keys()
+        print("Quantidade de chaves do dicionario: ",len(lista_chaves))
         print("\nInicio da lista de chaves: -->{}<-- final da lista!\n".format(lista_chaves))
+        cont = 0
         for pos in lista_chaves:
+            cont += 1
             print("Imprimindo a lista para a chave {}".format(pos))
             lista = self.dicionario_dados_site_orm[pos]
-            lista_auxiliar_itens = lista[0].lista_itens_da_guia
-            print("imprimindo os itens desta guia: ")
-            for i in lista_auxiliar_itens:
-                print(i.__dict__)
-
+            print(len(lista))
+            # for k in lista:
+            #     lista_auxiliar_itens = k.lista_itens_da_guia
+            #     print("imprimindo os itens desta guia: ")
+            #     for i in lista_auxiliar_itens:
+            #         print(i.__dict__)
+        print("cont: ",cont)
     def executar_extracao_dados(self):
         self.coleta_nome_arquivos()
         self.varre_todos_arquivos_orm()
-        self.imprimir_dicionario_orm()
+        # self.imprimir_dicionario_orm()
         # self.varre_todos_arquivos_html()
         # self.imprimir_dicionario()
         # self.varre_todos_arquivos_xml()
