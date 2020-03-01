@@ -49,7 +49,7 @@ class RootModel:
     def init_browser(self):
             """fução que inicia o navegador, ela cria um objeto Selenium e abre o navegador automaticamente, o vavegador é um atributo da classe """
             print("INICIANDO BROWSER")
-            local = str( os.path.abspath('../WebDriver/chromedriver.exe'))
+            local = str( os.path.abspath('../WebDriver/chromedriver'))
             self.browser = webdriver.Chrome(local, options=self.chrome_options)
             self.browser.maximize_window()
             #self.browser.get(self.site)

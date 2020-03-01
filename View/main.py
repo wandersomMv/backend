@@ -14,10 +14,11 @@ class execute:
          # objeto.executar_extracao_dados_csv()
          # objeto.imprimir_dicionario()
          objeto.executar_extracao_dados_xml()  # dados
-         objeto.executar_extracao_dados_html() # dados glosamin
+         # objeto.executar_extracao_dados_html() # dados glosamin
+         objeto.monta_diacionario_de_objetos_do_banco()
 
 
-         objeto.imprimir_dicionario()
+         # objeto.imprimir_dicionario()
          return objeto.dicionario_chave_num_prestes # dicionario com as chaves e dados
          #numero_prest, numero guia => [dados]
 
@@ -39,7 +40,8 @@ class execute:
 objeto = execute()
 # objeto.buscar_donwloads_convenios()
 objeto.pegar_dicionarios_dados()
-# objeto = Extracao_dados()
+
+#objeto = Extracao_dados()
 # objeto.executar_extracao_dados_html()
 # numero_prest, numero guia => [dados]
 

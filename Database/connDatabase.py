@@ -17,7 +17,7 @@ class SQL :
         self.database = database
         self.cont = 0
 
-        str_bd = 'postgresql+psycopg2://{}:{}@{}:{}/{}'.format(self.user,self.password,self.host,self.port,self.database)
+        str_bd = 'postgresql://{}:{}@{}:{}/{}'.format(self.user,self.password,self.host,self.port,self.database)
 
         s = 'Reconectando'.upper()
         c = 'Conectando'.upper()
@@ -49,7 +49,7 @@ class SQL :
 
         matricula = dados_modelado.matricula
         nome = dados_modelado.nome
-        numero_da_guia  = dados_modelado.numero_guia if dados_modelado.numero_guia is not None else dados_modelado.ng_prest
+        numero_da_guia  = dados_modelado.ng_prest if dados_modelado.ng_prest is not None else dados_modelado.numero_guia
         clausula_logica ="  guia.numero = '{}' ".format(numero_da_guia)
         if numero_da_guia is None:
             clausula_logica = "( beneficiario.matricula = '{}' and beneficiario.nome '{}' )".format(matricula,nome)
@@ -81,7 +81,7 @@ class SQL :
                  " FROM  item_guia left join  produto on  item_guia.guia_id = {} and item_guia.produto_id = produto.id " \
                  " left join  quitacao_item on item_guia.id = quitacao_item.item_guia_id "
         query2=query2.format(guia_id)
-        input(query2)
+        # input(query2)
         result_query2 = self.conn.execute(query2).fetchall()
         gera_dados = []
 
@@ -110,9 +110,6 @@ class SQL :
         return gera_dados
 
 
-
-
-
     # ATUALIZAÇÃO DO ELEMENTO CONVENIUM NO BANCO DE DADOS
     def update_conv_db(self, conv_nome, obj):
         t = databaseLocalHost.ConvenioTable.conv_data_update
@@ -127,7 +124,6 @@ class SQL :
         result = self.conn.execute(query)
         return result.fetchall()
 
-
     # INSERIR  GENERICO EM MASA
     def inseter(self,list_obj,gererica_table):
         list_item = []
@@ -136,5 +132,3 @@ class SQL :
             list_item.append({i: j for i, j in k.__dict__.items() if j is not None})
         id_pk = self.conn.execute(gererica_table.__table__.insert(),list_item).inserted_primary_key[:qtd]
         return id_pk
-
-
