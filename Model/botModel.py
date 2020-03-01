@@ -38,6 +38,8 @@ class RootModel:
         self.init_browser() # iniciar o browser
 
     def criar_pasta(self,nome_pasta):
+        """função que cria uma pasta em um diretório determinado, o parametro nome_pasta é o diretorio  + o nome da pasta, ou seja, o caminho, se não existir ele cria
+        caso contrario não é feito nnada"""
         try:
             os.makedirs(nome_pasta, 0o777, False)
             return True
@@ -45,12 +47,12 @@ class RootModel:
             return False
 
     def init_browser(self):
-
+            """fução que inicia o navegador, ela cria um objeto Selenium e abre o navegador automaticamente, o vavegador é um atributo da classe """
             print("INICIANDO BROWSER")
             local = str( os.path.abspath('../WebDriver/chromedriver.exe'))
             self.browser = webdriver.Chrome(local, options=self.chrome_options)
             self.browser.maximize_window()
-            self.browser.get(self.site)
+            #self.browser.get(self.site)
 
             #if self.visivel:
                 #self.browser.set_window_position(-10000, 0)
@@ -58,6 +60,8 @@ class RootModel:
             return True
 
     def wait_download(self, n_files):
+        """função que aguarda o download terminar, o parametro n_files é a quantidade de arquivos que continha na pasta antes de começar a fazer o donwload
+        , essa fução espera um minuto, caso donwload não seja finalizado é retornado True, True quer siginifica que o donwload deu erro ou que  tempo máximo de um minuto não foi suficiente para baixar o arquivo."""
         temp_inicio = time.time()
         baixando = True
 
@@ -65,7 +69,7 @@ class RootModel:
         temp_inicio = time.time()
         baixando = True
 
-        while baixando:
+        while baixando: # esperar baixar ou ate um minuto
 
             if (time.time() - temp_inicio) >= 80:  # passou  um minto
                 return True
@@ -74,10 +78,10 @@ class RootModel:
             if n_files < len(dir):  # se tem mais um donwload
 
                 for j in range(0, len(dir)):
-                    if dir[j].endswith('.crdownload') or dir[j].endswith('.tmp'):
+                    if dir[j].endswith('.crdownload') or dir[j].endswith('.tmp'): # extensão que fica quando está fazendo um download
                         baixando = True
                         break
-                    else:
+                    else: # caso termine o download
                         baixando = False
         return False
 

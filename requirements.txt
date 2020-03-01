@@ -49,3 +49,4 @@ xlrd
 zipp
 zope.interface
 openapi-codec
+lxml
