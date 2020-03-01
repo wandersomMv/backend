@@ -18,8 +18,8 @@ import dicttoxml
 from xml.etree import ElementTree as elements
 
 class Extracao_dados:
-    def __init__(self,nome_convenio):
-        self.nome_convenio = nome_convenio
+    def __init__(self):
+        self.nome_convenio = ""
         self.nome_arquivos = []
         self.caminho_ate_pasta_downloads = ''
         self.lista_num_prestes = []
@@ -31,7 +31,8 @@ class Extracao_dados:
     def coleta_nome_arquivos(self):
         caminhos_arquivos = os.getcwd()
         caminhos_arquivos = caminhos_arquivos.replace('Controller','')
-        self.caminho_ate_pasta_downloads += caminhos_arquivos + "Downloads/"
+        caminhos_arquivos = caminhos_arquivos.replace('View', '')
+        self.caminho_ate_pasta_downloads = caminhos_arquivos + "Downloads\\"
         self.caminho_pasta_dos_arquivos = self.caminho_ate_pasta_downloads + self.nome_convenio
         self.nome_arquivos = os.listdir(self.caminho_pasta_dos_arquivos)
 
@@ -39,8 +40,8 @@ class Extracao_dados:
     def retorna_tupla_dados_dos_arquivos_xml(self,name):
         doc = ''
         # CRIA UM OBJETO DO TIPO DICIONARIO COM OS DADOS
-        print("caminho para os arquivvos xml: ",self.caminho_pasta_dos_arquivos + "/" + name)
-        with open(self.caminho_pasta_dos_arquivos + "/" + name) as fd:
+        print("caminho para os arquivvos xml: ",self.caminho_pasta_dos_arquivos + "\\" + name)
+        with open(self.caminho_pasta_dos_arquivos + "\\" + name) as fd:
             doc = xmltodict.parse(fd.read())
         # EXTRAI OS DADOS, E RETORNA A TUPLA COM ELES
         return tuple(doc['data']['row'])
@@ -48,8 +49,8 @@ class Extracao_dados:
     # RETORNA UMA TUPLA COM OS DADOS DO ARQUIVO HTML
     def retorna_tupla_dados_dos_arquivos_html(self,name):
         print("Nome do arquivo ",name)
-        print("Caminho com o nome do arquivo: ",self.caminho_pasta_dos_arquivos + "/" + name)
-        df_list = pd.read_html(self.caminho_pasta_dos_arquivos + "/" + name)
+        print("Caminho com o nome do arquivo: ",self.caminho_pasta_dos_arquivos + "\\" + name)
+        df_list = pd.read_html(self.caminho_pasta_dos_arquivos + "\\" + name)
         planilha = pd.DataFrame(df_list[0])
 
         # EXTRAI OS DADOS DA PLANILHA HTML
@@ -250,13 +251,19 @@ class Extracao_dados:
             #     for i in lista_auxiliar_itens:
             #         print(i.__dict__)
         print("cont: ",cont)
-    def executar_extracao_dados(self):
+    def executar_extracao_dados_html(self):
+        self.nome_convenio = 'glosamin'
         self.coleta_nome_arquivos()
-        self.varre_todos_arquivos_orm()
         # self.imprimir_dicionario_orm()
-        # self.varre_todos_arquivos_html()
+        self.varre_todos_arquivos_html()
         # self.imprimir_dicionario()
         # self.varre_todos_arquivos_xml()
         # self.imprimir_dicionario()
+    def executar_extracao_dados_xml(self):
+
+        self.nome_convenio='glosamax'
+        self.coleta_nome_arquivos()
+        # self.imprimir_dicionario_orm()
+        self.varre_todos_arquivos_xml()
 
 
