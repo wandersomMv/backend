@@ -1,5 +1,5 @@
 .idea
-
+Donwloads
 venv
 debugger.py
 Logs
@@ -8,7 +8,7 @@ Logs
 debug.log
 Temp
 test2.py
-chromedriver.exe
+
 *.log
 .idea/backend.iml
 .idea/backend.iml

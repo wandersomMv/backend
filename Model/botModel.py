@@ -11,11 +11,11 @@ import  time
 
 class RootModel:
 
-    def __init__(self, site, mode_execute,pasta=""):
+    def __init__(self, mode_execute,pasta=""):
         
         self.path_download_prov = os.path.abspath('../Downloads/' + pasta) # nome para criar uma pasta provisoria para o robo
         self.criar_pasta(str(self.path_download_prov)) # criar a pasta
-        self.site = site # site que fará a busca
+
         self.chrome_options = webdriver.ChromeOptions() # preferencias do googlecrome
         #'safebrowsing'
         self.chrome_options.add_experimental_option("prefs",
