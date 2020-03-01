@@ -11,6 +11,7 @@ from Model.dados_planilhas import guia
 from Model.dados_planilhas import dados_item
 from xml.etree import ElementTree as et
 import xml.etree.ElementTree as ET
+from Database.connDatabase import SQL,dados
 
 import requests
 import xmltodict
@@ -141,7 +142,18 @@ class Extracao_dados:
                 lista_aux.append(objeto)
                 self.dicionario_chave_num_prestes[tupla_chave_auxiliar] = lista_aux
 
+    def monta_diacionario_de_objetos_do_banco(self):
 
+        banco = SQL(user="time3", password="aFp5yEFVvGrfAu9c", host='servidor-maratona,zeroglossa.com.br', port='5432',
+                   database="time3")
+
+        nova_dict={}
+        for i,y in self.dicionario_chave_num_prestes.values():
+            resultado = banco.Select_dados_zero_glosa(dados(ng_prest=i[0],numero_guia=i[1]))
+            nova_dict[i] = resultado
+            
+        SQL.__del__()
+        result = nova_dict
 
     # MONTA O DICIONARIO, COM OS OBJETOS PREENCHIDOS, E CADA OBJETO EQUIVALE A UMA LINNHA DA PLANILHA EM HTML
     def monta_diacionario_de_objetos_arquivos_html(self, nome_arquivo):
