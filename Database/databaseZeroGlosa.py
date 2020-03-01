@@ -1,10 +1,7 @@
 from sqlalchemy import *
-from Model.dados_planilhs import dados
+from Model.dados_planilhas import dados
 from sqlalchemy.orm import Session
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.exc import ArgumentError, InterfaceError, OperationalError
-Base = declarative_base()
-
+from Database.connDatabase import Base
 
 class BeneficiaroTable(Base) :
     __tablename__ = "beneficiario"
@@ -13,8 +10,6 @@ class BeneficiaroTable(Base) :
     matricula = Column(VARCHAR(255))
     nome = Column(VARCHAR(255))
 
-
-
 class ConvenioTable(Base) :
     __tablename__ = "convenio"
 
@@ -22,7 +17,6 @@ class ConvenioTable(Base) :
     version = Column(BIGINT)
     ans =  Column(VARCHAR(255))
     nome =  Column(VARCHAR(255))
-
 
 class GuiaTable(Base) :
     __tablename__ = "guia"

@@ -1,4 +1,4 @@
-from Database.connDatabase import SQL
+from Database.connDatabase import SQL,dados
 
 user= "postgres"
 password = "061836" 
@@ -9,12 +9,11 @@ database ="time3"
 test= SQL(user= "time3",password = "aFp5yEFVvGrfAu9c" , host = 'servidor-maratona,zeroglossa.com.br' , port = '5432' ,database ="time3")
 # test= SQL(user= user,password = password , host =host , port =  port  ,database =database)
 
-query = "INSERT INTO public.convenio(conv_ans, conv_nome, con_data_update)VALUES ( '654654', 'Gosa Max', '2013-06-01')"
-
-result = test.conn.execute(query)
+result = test.Select_dados_zero_glosa(dados(numero_guia='182524178'))
 
 for i in result:
-    print(i)
+    print(i.__dict__)
+
 
 
 
