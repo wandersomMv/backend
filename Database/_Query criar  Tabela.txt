@@ -1,0 +1,60 @@
+﻿----------------------------------------------------------------------------------------------------------------------------
+create table  beneficiario   (
+        bnfc_id BIGSERIAL PRIMARY KEY,
+        bnfc_matricula VARCHAR (255),
+bnfc_nome  VARCHAR (255)
+        );--ok
+----------------------------------------------------------------------------------------------------------------------------
+create table convenio (
+        conv_id BIGSERIAL PRIMARY KEY,
+conv_ans VARCHAR (255),
+conv_nome  VARCHAR (255),
+con_data_update  DATE
+);--ok
+----------------------------------------------------------------------------------------------------------------------------
+create table guia(    
+          guia_id  BIGSERIAL PRIMARY KEY,
+              guia_numero  VARCHAR(255) not null,
+             guia_prest_id BIGINT,
+             guia_valor_total NUMERIC(19,2),
+             guia_conv_id BIGINT,
+            guia_bnfc_id BIGINT,
+              guia_data_cadastro DATE,
+  guia_data_pagamento  DATE,
+  guia_valor_pago  NUMERIC(19,2 )
+);--ok
+
+
+----------------------------------------------------------------------------------------------------------------------------
+create table  item_guia(
+    itmg_id  BIGSERIAL PRIMARY KEY,
+    itmg_quantidade  INTEGER,
+    itmg_guia_id   BIGINT,
+    itmg_prdt_id   BIGINT,
+    itmg_valor_total    NUMERIC(19,2),
+    itmg_numero  INTEGER not null,
+    itmg_valor_pago   NUMERIC(19,2),
+    itmg_valor_glosa   NUMERIC(19,2),
+     itmg_motivo_glosa_descricao   VARCHAR(255 ),
+     itmg_motivo_glosa_codigo   VARCHAR(255 ),
+     itmg_status  INTEGER
+);--ok
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------
+create table prestador (   
+    prest_id   BIGSERIAL PRIMARY KEY,
+    prest_cnpj   VARCHAR(255),
+    prest_nome   VARCHAR(255)
+);--ok
+----------------------------------------------------------------------------------------------------------------------------
+create table  produtor(
+     prdt_id  BIGSERIAL PRIMARY KEY,
+     prdt_codigo   VARCHAR(255) ,
+     prdt_nome   VARCHAR(255),
+     prdt_valor_unitario  NUMERIC(19,2)
+);--ok
