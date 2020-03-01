@@ -31,3 +31,44 @@ class dados:
         self.valor_glosa = valor_glosa
         self.descricao_motivo = descricao_motivo
         self.codigo_motivo = codigo_motivo
+
+
+
+
+class guia:
+    def __init__(self,
+         numeroGuia='',
+         nomeOperadora='',
+         nome_prestador='',
+         cnpj='',
+         nome_Beneficiario='',
+         matricula='',
+         dataAtendimento='',
+         valorTotalGuia='',
+    ):
+        self.numeroGuia = numeroGuia
+        self.nomeOperadora = nomeOperadora
+        self.nome_prestador = nome_prestador
+        self.cnpj = cnpj
+        self.nome_Beneficiario = nome_Beneficiario
+        self.matricula = matricula
+        self.dataAtendimento = dataAtendimento
+        self.valorTotalGuia = valorTotalGuia
+        self.lista_itens_da_guia = []
+
+
+class dados_item:
+    def __init__(self,
+         numeroItem='',
+         codigo='',
+         nome_item='',
+         valorUnitario='',
+         quantidade='',
+         valorTotal=''
+    ):
+        self.numeroItem = numeroItem
+        self.codigo = codigo
+        self.nome_item = nome_item
+        self.valorUnitario = valorUnitario
+        self.quantidade = quantidade
+        self.valorTotal = valorTotal
