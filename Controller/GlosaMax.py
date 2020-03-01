@@ -8,8 +8,8 @@ from datetime import *
 import os
 class GlosaMax(RootModel):
 
-    def __init__(self,site,visivel,pasta): # para iniciar o browser
-        super().__init__(site,visivel,pasta)
+    def __init__(self,visivel,pasta): # para iniciar o browser
+        super().__init__(visivel,pasta)
 
 
     def dowload_convenio_glosas(self,data_ultima_coleta,convenio): # todos os arquivo dos convenios glosas são baixados aqui
@@ -61,5 +61,11 @@ class GlosaMax(RootModel):
         glosas = ['glosamin','glosamax','pagatudo'] # lista de convenios
         if convenio!= None and convenio in glosas:
             self.dowload_convenio_glosas(data_ultima_coleta,convenio)
+
+
+
+
+
+
 
 
